@@ -15,4 +15,4 @@ Iterating through a binary tree using breadth-first search
 - Searching
 - Insertion
 - Deletion
-- Verification
+- Verification (cycle detection, node value verification)

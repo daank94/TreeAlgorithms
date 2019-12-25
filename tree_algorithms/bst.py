@@ -16,6 +16,22 @@ def contains(node: Node, value):
         return contains(node.right, value)
 
 
+# Check if the given node is the root for a tree (no cycles)
+def is_tree(node: Node) -> bool:
+    return __is_tree_recur(node, set())
+
+
+def __is_tree_recur(node: Node, nodes_visited: set) -> bool:
+    if not node:
+        return True
+
+    if node in nodes_visited:
+        return False
+    nodes_visited.add(node)
+
+    return __is_tree_recur(node.left, nodes_visited) and __is_tree_recur(node.right, nodes_visited)
+
+
 # Check if the given tree is a binary search tree.
 def is_bst(node: Node) -> bool:
     return __is_bst_recur(node, None, None)
@@ -69,7 +85,7 @@ def __insert_recur(node: Node, value):
 # Delete a given node from a binary search tree.
 # Return the root of the new binary search tree (will be different to given root if node_to_delete is root node).
 def delete(root: Node, node_to_delete: Node) -> Node:
-
+    
     # Special case, node_to_delete is root node
     # Create a dummy node, which we will have to remove later.
     if node_to_delete == root:
@@ -111,6 +127,7 @@ def delete(root: Node, node_to_delete: Node) -> Node:
 
     return root
 
+
 '''
 Create nodes with structure:
        6
@@ -128,8 +145,17 @@ insert(root, 9)
 node9 = contains(root, 9)
 print(node9)
 print(node9.parent)
+print(is_tree(root))
 print(is_bst(root))
 
 print(root)
-delete(root, contains(root, 6))
+root = delete(root, contains(root, 6))
 print(root)
+
+root2 = Node(5)
+insert(root2, 6)
+insert(root2, 7)
+
+print(root2)
+root2 = delete(root2, contains(root2, 5))
+print(root2)
