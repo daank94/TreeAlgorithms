@@ -55,12 +55,14 @@ def __insert_recur(node: Node, value):
             insert(node.left, value)
         else:
             node.left = Node(value)
+            node.left.parent = node
             return node.left
     else:
         if node.right:
             insert(node.right, value)
         else:
             node.right = Node(value)
+            node.right.parent = node
             return node.right
 
 
@@ -71,14 +73,16 @@ Create nodes with structure:
 1   4     7   9
 '''
 root = Node(6)
-root.left = Node(3)
-root.left.left = Node(1)
-root.left.right = Node(4)
-root.right = Node(8)
-root.right.left = Node(7)
-root.right.right = Node(9)
+insert(root, 3)
+insert(root, 1)
+insert(root, 4)
+insert(root, 8)
+insert(root, 7)
+insert(root, 9)
 
-print(contains(root, 9))
+node9 = contains(root, 9)
+print(node9)
+print(node9.parent)
 print(is_bst(root))
 
 insert(root, 11)
