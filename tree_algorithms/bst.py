@@ -66,6 +66,51 @@ def __insert_recur(node: Node, value):
             return node.right
 
 
+# Delete a given node from a binary search tree.
+# Return the root of the new binary search tree (will be different to given root if node_to_delete is root node).
+def delete(root: Node, node_to_delete: Node) -> Node:
+
+    # Special case, node_to_delete is root node
+    # Create a dummy node, which we will have to remove later.
+    if node_to_delete == root:
+        dummy_root = Node(0)
+        dummy_root.left = root
+        root.parent = dummy_root
+    else:
+        dummy_root = None
+
+    # Node without children: simply remove the node.
+    if not node_to_delete.left and not node_to_delete.right:
+        if node_to_delete.parent.left == node_to_delete:
+            node_to_delete.parent.left = None
+        else:
+            node_to_delete.parent.right = None
+
+    # Node with one child: make the parent point to the child.
+    elif (not node_to_delete.left) != (not node_to_delete.right):
+        child_node = node_to_delete.left or node_to_delete.right
+
+        if node_to_delete.parent.left == node_to_delete:
+            node_to_delete.parent.left = child_node
+        else:
+            node_to_delete.parent.right = child_node
+
+    # Node with two children: get the smallest larger node, replace with the node to delete, then delete the swapped
+    # node.
+    else:
+        node_to_swap = node_to_delete.right
+        while node_to_swap.left:
+            node_to_swap = node_to_swap.left
+
+        node_to_delete.value = node_to_swap.value
+        delete(root, node_to_swap)
+
+    # If the node to delete was the root node, we will have to recover that node.
+    if dummy_root:
+        root = dummy_root.left
+
+    return root
+
 '''
 Create nodes with structure:
        6
@@ -85,6 +130,6 @@ print(node9)
 print(node9.parent)
 print(is_bst(root))
 
-insert(root, 11)
-insert(root, 0)
+print(root)
+delete(root, contains(root, 6))
 print(root)
