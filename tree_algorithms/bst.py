@@ -41,17 +41,13 @@ def __is_bst_recur(node: Node, smallest_value_allowed, largest_value_allowed) ->
     if not node:
         return True
 
-    if smallest_value_allowed and node.value < smallest_value_allowed:
+    if smallest_value_allowed and node.value <= smallest_value_allowed:
         return False
-    if largest_value_allowed and node.value > largest_value_allowed:
+    if largest_value_allowed and node.value >= largest_value_allowed:
         return False
 
-    return __is_bst_recur(node.left,
-                          smallest_value_allowed,
-                          min(largest_value_allowed, node.value) if largest_value_allowed else node.value) \
-           and __is_bst_recur(node.right,
-                              max(smallest_value_allowed, node.value) if smallest_value_allowed else node.value,
-                              largest_value_allowed)
+    return __is_bst_recur(node.left, smallest_value_allowed, node.value)\
+           and __is_bst_recur(node.right, node.value, largest_value_allowed)
 
 
 # Insert value in the binary search tree.
@@ -85,7 +81,6 @@ def __insert_recur(node: Node, value):
 # Delete a given node from a binary search tree.
 # Return the root of the new binary search tree (will be different to given root if node_to_delete is root node).
 def delete(root: Node, node_to_delete: Node) -> Node:
-    
     # Special case, node_to_delete is root node
     # Create a dummy node, which we will have to remove later.
     if node_to_delete == root:
