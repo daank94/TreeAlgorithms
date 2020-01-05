@@ -16,3 +16,5 @@ Iterating through a binary tree using breadth-first search
 - Insertion
 - Deletion
 - Verification (cycle detection, node value verification)
+
+https://daankolthof.com/2020/01/05/trees-and-binary-search-trees/
